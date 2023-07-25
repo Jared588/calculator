@@ -23,13 +23,19 @@ button {
     color: aliceblue;
     font-size: 23px;
     background-color: rgb(28, 28, 34);
-    margin: 0px;
-    margin-bottom: 3px;
+    margin-bottom: 2px;
+    border-radius: 7px;
 }
 
 .calculator {
     border: 1px solid beige;
-    margin: 100px 30%;
+    margin: 150px auto;
+}
+
+.screen {
+    color: aliceblue;
+    text-align: right;
+    padding: 30px;
 }
 
 .container {
