@@ -17,19 +17,20 @@ body {
 }
 
 button {
-    padding: 0px;
     height: 70px;
     width: 110px;
     color: aliceblue;
     font-size: 23px;
-    background-color: rgb(28, 28, 34);
+    background-color: rgb(52, 52, 63);
     margin-bottom: 2px;
-    border-radius: 7px;
+    border-radius: 10px;
+    flex: 1;
+    border: none; /* Remove the default border */
 }
 
 .calculator {
-    border: 1px solid beige;
-    margin: 150px auto;
+    margin: 150px 1000px 150px 400px;
+    padding: 5px;
 }
 
 .screen {
@@ -42,4 +43,44 @@ button {
     display: flex;
     flex-direction: column;
     flex: auto;
+}
+
+.row1,
+.row2,
+.row3,
+.row4,
+.row5,
+.row6 {
+    display: flex; /* Display buttons in each row as flex items */
+    gap: 2px;
+}
+
+.hover-light {
+    background-color: rgb(42, 42, 56);
+}
+
+.hover-dark {
+    background-color: rgb(62, 59, 107);
+}
+
+.click-light {
+    background-color: rgb(22, 22, 22);
+}
+
+#equals {
+    background-color: rgb(62, 59, 107);
+}
+
+#percent,
+#cancel-everything,
+#cancel,
+#one-divide-x,
+#square,
+#square-root,
+#backspace,
+#divide,
+#multiply,
+#minus,
+#add {
+    background-color: rgb(42, 42, 56);
 }
