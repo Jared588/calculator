@@ -28,34 +28,34 @@ document.addEventListener('DOMContentLoaded', function() {
 
     updateDisplay(0) // Set display to default 0
     
-    // Select the digits
-    let digits = document.querySelectorAll('.digit');
+    // Select the input
+    let inputs = document.querySelectorAll('.digit, .operator');
 
-    // Have the buttons return their ID's
+    // Have the buttons display correctly
     let currentNumber = "0";
 
-    digits.forEach(function(digit) {
-        digit.addEventListener('click', () => {
+    inputs.forEach(function(input) {
+        input.addEventListener('click', () => {
             // Account for negate
-            if (digit.id === "plus-minus" && currentNumber === "0") {         
+            if (input.id === "plus-minus" && currentNumber === "0") {         
                 return; 
-            } else if (digit.id === "plus-minus" && currentNumber !== "0") {
-                currentNumber = negate(currentNumber);
+            } else if (input.id === "plus-minus" && currentNumber !== "0") {
+                currentNumber = negate(currentNumber).toString();
                 updateDisplay(currentNumber);
                 return;
             }
 
             // Account for periods
-            if(digit.id === "period" && currentNumber.includes('.')) {
+            if(input.id === "period" && currentNumber.includes('.')) {
                 return;
-            } else if(digit.id === "period" && !currentNumber.includes('.')) {
+            } else if(input.id === "period" && !currentNumber.includes('.')) {
                 currentNumber += ".";
                 updateDisplay(currentNumber);
                 return;
             }
 
             // Account for numbers
-            if (currentNumber === "0" && digit.id === "0") {
+            if (currentNumber === "0" && input.id === "0") {
                 // If currentNumber is "0" and the clicked button is also "0", do nothing
                 return;
             } else {
@@ -63,10 +63,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (currentNumber === "0") {
                     // If currentNumber is "0" and the clicked button is not "0",
                     // update currentNumber directly without concatenation
-                    currentNumber = digit.id;
+                    currentNumber = input.id;
                 } else {
                     // If currentNumber is not "0", concatenate the clicked button's ID
-                    currentNumber += digit.id;
+                    currentNumber += input.id;
                 }
             }
 
