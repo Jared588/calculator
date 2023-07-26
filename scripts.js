@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // event listeners for hover and click effects
     buttons.forEach(function(button) {
         if(button.className === "digit") {
-
             button.addEventListener('mouseover', () => button.classList.add('hover-light'));
             button.addEventListener('mouseout', () => button.classList.remove('hover-light'));
             button.addEventListener('mousedown', () => button.classList.add('click-light'));   
@@ -12,7 +11,6 @@ document.addEventListener('DOMContentLoaded', function() {
             button.addEventListener('mouseout', () => button.classList.remove('click-light'));
 
         } else if(button.className === "operator") {
-
             button.addEventListener('mouseover', () => button.classList.add('hover-dark'));           
             button.addEventListener('mouseout', () => button.classList.remove('hover-dark'));
             button.addEventListener('mousedown', () => button.classList.add('click-light'));  
@@ -27,7 +25,76 @@ document.addEventListener('DOMContentLoaded', function() {
             button.addEventListener('mouseout', () => button.classList.remove('equals-click'));
         }
     });
+
+    updateDisplay(0) // Set display to default 0
+    
+    // Select the digits
+    let digits = document.querySelectorAll('.digit');
+
+    // Have the buttons return their ID's
+    let currentNumber = "0";
+
+    digits.forEach(function(digit) {
+        digit.addEventListener('click', () => {
+            // Account for negate
+            if (digit.id === "plus-minus" && currentNumber === "0") {         
+                return; 
+            } else if (digit.id === "plus-minus" && currentNumber !== "0") {
+                currentNumber = negate(currentNumber);
+                updateDisplay(currentNumber);
+                return;
+            }
+
+            // Account for periods
+            if(digit.id === "period" && currentNumber.includes('.')) {
+                return;
+            } else if(digit.id === "period" && !currentNumber.includes('.')) {
+                currentNumber += ".";
+                updateDisplay(currentNumber);
+                return;
+            }
+
+            // Account for numbers
+            if (currentNumber === "0" && digit.id === "0") {
+                // If currentNumber is "0" and the clicked button is also "0", do nothing
+                return;
+            } else {
+                // Otherwise, update currentNumber with the clicked button's ID
+                if (currentNumber === "0") {
+                    // If currentNumber is "0" and the clicked button is not "0",
+                    // update currentNumber directly without concatenation
+                    currentNumber = digit.id;
+                } else {
+                    // If currentNumber is not "0", concatenate the clicked button's ID
+                    currentNumber += digit.id;
+                }
+            }
+
+            updateDisplay(currentNumber);
+        });
+    });
+
+    // clear
+    let clearBtn = document.querySelector('#clear'); 
+    clearBtn.addEventListener('click', () => {
+    updateDisplay(0);
+    currentNumber = "0";
+    });
 });
+
+// update function
+function updateDisplay(num) {
+    let display = document.querySelector('.display');
+    display.innerHTML = num;
+}
+
+// clear function
+function clear() {
+    updateDisplay(0)
+}
+
+
+
 
 // basic mathematical functions
 const add = (x, y) => x + y;

@@ -33,10 +33,11 @@ button {
     padding: 5px;
 }
 
-.screen {
+.display {
     color: aliceblue;
     text-align: right;
     padding: 30px;
+    font-size: 50px;
 }
 
 .container {
