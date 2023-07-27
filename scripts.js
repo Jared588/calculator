@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     let buttons = document.querySelectorAll(".container > div > button");
 
-    // event listeners for hover and click effects
+    // Event listeners for hover and click effects
     buttons.forEach(function(button) {
         if(button.className === "digit") {
             button.addEventListener('mouseover', () => button.classList.add('hover-light'));
@@ -26,17 +26,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    updateDisplay(0) // Set display to default 0
+    updateDisplay(0); // Set display to default 0
+    updateCalcDisplay(''); // Set Calculation Display to blank
     
     // Select the input
-    let inputs = document.querySelectorAll('.digit, .operator');
+    let inputs = document.querySelectorAll('.digit, .operator, .equals');
 
     // Have the buttons display correctly
     let currentNumber = "0";
+    let calcNumber = '';
 
     inputs.forEach(function(input) {
         input.addEventListener('click', () => {
-            // Account for negate
+            // Negate
             if (input.id === "plus-minus" && currentNumber === "0") {         
                 return; 
             } else if (input.id === "plus-minus" && currentNumber !== "0") {
@@ -45,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            // Account for periods
+            // Period
             if(input.id === "period" && currentNumber.includes('.')) {
                 return;
             } else if(input.id === "period" && !currentNumber.includes('.')) {
@@ -54,8 +56,28 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
+            // Addition
+            if(input.id === "add" && calcNumber.includes('+')) {    
+                return;
+            } else if(input.id === "add" && !calcNumber.includes('+')){
+                calcNumber = (currentNumber + " + ");
+                updateCalcDisplay(calcNumber);
+                currentNumber = ''; // Reset currentNumber for 2nd variable
+                return;
+            }
+
+            // Equals
+            if(input.id === "equals" && currentNumber !== '0') {
+                let fullEquation = (calcNumber + currentNumber) + " = ";
+                updateCalcDisplay(fullEquation); 
+                updateDisplay();
+                return;
+            } else if (input.id === "equals" && currentNumber === '0') {
+                return;
+            }
+
             // Account for numbers
-            if (currentNumber === "0" && input.id === "0") {
+            if (input.id === "0" && currentNumber === "0") {
                 // If currentNumber is "0" and the clicked button is also "0", do nothing
                 return;
             } else {
@@ -74,26 +96,38 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // clear
+    // Clear
     let clearBtn = document.querySelector('#clear'); 
     clearBtn.addEventListener('click', () => {
     updateDisplay(0);
+    updateCalcDisplay('')
     currentNumber = "0";
+    calcNumber = '';
     });
 });
 
-// update function
+// Update display
 function updateDisplay(num) {
     let display = document.querySelector('.display');
     display.innerHTML = num;
 }
 
-// clear function
-function clear() {
-    updateDisplay(0)
+// Update calculation screen
+function updateCalcDisplay(num) {
+    let calcDisplay = document.querySelector('.calculation');
+    calcDisplay.innerHTML = num.toString();
 }
 
+// Clear display
+function clear() {
+    updateDisplay(0)
+    updateCalcDisplay()
+}
 
+// Parse and calculate function
+function calculate(string) {
+    
+}
 
 
 // basic mathematical functions
