@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if(input.id === "equals" && currentNumber !== '0') {
                 let fullEquation = (calcNumber + currentNumber) + " = ";
                 updateCalcDisplay(fullEquation); 
-                updateDisplay();
+                updateDisplay(calculate(fullEquation));
                 return;
             } else if (input.id === "equals" && currentNumber === '0') {
                 return;
@@ -125,8 +125,41 @@ function clear() {
 }
 
 // Parse and calculate function
-function calculate(string) {
-    
+function calculate(expression) {
+    // Remove '=' and any spaces
+    const sanitizedExpression = expression.replace("=", "").trim();
+
+    // Split the expression into parts based on the operator
+    const operators = ["+", "-", "x", "÷"];
+    let operatorIndex = -1;
+    let operator;
+
+    for (const op of operators) {
+        operatorIndex = sanitizedExpression.indexOf(op);
+        if (operatorIndex !== -1) {
+            operator = op;
+            break;
+        }
+    }
+
+    if (operatorIndex === -1) {
+        console.error("Invalid expression:", expression);
+        updateDisplay("ERROR");
+        return null;
+    }
+
+    // Parse the first and second variable
+    let firstVariable = sanitizedExpression.slice(0, operatorIndex).trim();
+    let secondVariable = sanitizedExpression.slice(operatorIndex + operator.length).trim();
+
+    firstVariable = Number(firstVariable);
+    secondVariable = Number(secondVariable);
+    operator = operator;
+
+    if (operator === "+") return add(firstVariable, secondVariable);
+    else if (operator === "-") return minus(firstVariable, secondVariable);
+    else if (operator === "x") return multiply(firstVariable, secondVariable);
+    else if (operator === "÷") return divide(firstVariable, secondVariable);
 }
 
 
