@@ -81,10 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     currentNumber = ''; // Reset currentNumber for 2nd variable
                     return;
                 } else{
-                    console.log("3");
                     let fullEquation = (calcNumber + currentNumber) + " = ";
-                    console.log(calcNumber);
-                    console.log(currentNumber);
                     ans = calculate(fullEquation);
                     calcNumber = (ans + " + ");
                     updateCalcDisplay(calcNumber);
@@ -117,10 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     currentNumber = ''; // Reset currentNumber for 2nd variable
                     return;
                 } else{
-                    console.log("3");
                     let fullEquation = (calcNumber + currentNumber) + " = ";
-                    console.log(calcNumber);
-                    console.log(currentNumber);
                     ans = calculate(fullEquation);
                     calcNumber = (ans + " - ");
                     updateCalcDisplay(calcNumber);
@@ -208,12 +202,25 @@ function calculate(expression) {
     const operators = ["+", "-", "x", "÷"];
     let operatorIndex = -1;
     let operator;
+    let negativeExpression;
 
     for (const op of operators) {
-        operatorIndex = sanitizedExpression.indexOf(op);
-        if (operatorIndex !== -1) {
-            operator = op;
-            break;
+        if (sanitizedExpression[0] === "-") { // Account for a negative 1st Variable
+            negativeExpression = sanitizedExpression.slice(1);
+
+            operatorIndex = negativeExpression.indexOf(op);
+
+            if (operatorIndex !== -1) {
+                operator = op;
+                operatorIndex += 1;
+                break;
+            }
+        } else {
+            operatorIndex = sanitizedExpression.indexOf(op);
+            if (operatorIndex !== -1) {
+                operator = op;
+                break;
+            }
         }
     }
 
@@ -229,15 +236,12 @@ function calculate(expression) {
 
     firstVariable = Number(firstVariable);
     secondVariable = Number(secondVariable);
-    operator = operator;
 
     if (operator === "+") return add(firstVariable, secondVariable);
     else if (operator === "-") return minus(firstVariable, secondVariable);
     else if (operator === "x") return multiply(firstVariable, secondVariable);
     else if (operator === "÷") return divide(firstVariable, secondVariable);
 }
-
-
 // basic mathematical functions
 const add = (x, y) => x + y;
 
