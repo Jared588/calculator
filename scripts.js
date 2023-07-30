@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Have the buttons display correctly
     let currentNumber = "0";
     let calcNumber = '';
+    let ans = null;
 
     inputs.forEach(function(input) {
         input.addEventListener('click', () => {
@@ -56,8 +57,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
+            // Define Operators
+            const hasOperator = /[\+\-\x÷]/.test(calcNumber);
+            const isCalculationDone = calcNumber.includes('=');
+            
             // Addition
-            if(input.id === "add" && calcNumber.includes('+')) {   
+            if(input.id === "add" && calcNumber.includes('+') && !calcNumber.includes('=')) {   
                 fullEquation = calcNumber += currentNumber;
                 ans = calculate(fullEquation);
                 updateCalcDisplay(ans + ' + ');
@@ -65,38 +70,86 @@ document.addEventListener('DOMContentLoaded', function() {
                 calcNumber = ans + ' + '
                 currentNumber = '';
                 return;
-            } else if (input.id === "add" && !calcNumber.includes('+') && !calcNumber.includes('=')) {
+            } else if (input.id === "add" && calcNumber.includes('+') && calcNumber.includes('=')) {
+                calcNumber = ans + '+';
+                updateCalcDisplay(calcNumber);
+                return;
+            } else if (input.id === "add" && !calcNumber.includes('+') && !calcNumber.includes('=')) {   
+                if (!calcNumber) {
+                    calcNumber = (currentNumber + " + ");
+                    updateCalcDisplay(calcNumber);
+                    currentNumber = ''; // Reset currentNumber for 2nd variable
+                    return;
+                } else{
+                    console.log("3");
+                    let fullEquation = (calcNumber + currentNumber) + " = ";
+                    console.log(calcNumber);
+                    console.log(currentNumber);
+                    ans = calculate(fullEquation);
+                    calcNumber = (ans + " + ");
+                    updateCalcDisplay(calcNumber);
+                    currentNumber = ''; // Reset currentNumber for 2nd variable
+                    return;
+                }
+            } else if (input.id === "add" && !calcNumber.includes('+') && calcNumber.includes('=')) {
                 calcNumber = (currentNumber + " + ");
                 updateCalcDisplay(calcNumber);
-                currentNumber = ''; // Reset currentNumber for 2nd variable
                 return;
-            } else if (input.id === "add" && !calcNumber.includes('+') && calcNumber.includes('=')) {
-                calcNumber = (ans + " + ");
+            } 
+
+            // Subtraction 
+            if(input.id === "minus" && calcNumber.includes('-') && !calcNumber.includes('=')) {  
+                fullEquation = calcNumber += currentNumber;
+                ans = calculate(fullEquation);
+                updateCalcDisplay(ans + ' - ');
+                updateDisplay(ans);
+                calcNumber = ans + ' - '
+                currentNumber = '';
+                return;
+            } else if (input.id === "minus" && calcNumber.includes('-') && calcNumber.includes('=')) {
+                calcNumber = ans + '-';
                 updateCalcDisplay(calcNumber);
+                return;
+            } else if (input.id === "minus" && !calcNumber.includes('-') && !calcNumber.includes('=')) {
+                if (!calcNumber) {
+                    calcNumber = (currentNumber + " - ");
+                    updateCalcDisplay(calcNumber);
+                    currentNumber = ''; // Reset currentNumber for 2nd variable
+                    return;
+                } else{
+                    console.log("3");
+                    let fullEquation = (calcNumber + currentNumber) + " = ";
+                    console.log(calcNumber);
+                    console.log(currentNumber);
+                    ans = calculate(fullEquation);
+                    calcNumber = (ans + " - ");
+                    updateCalcDisplay(calcNumber);
+                    currentNumber = ''; // Reset currentNumber for 2nd variable
+                    return;
+                }
+            } else if (input.id === "minus" && !calcNumber.includes('-') && calcNumber.includes('=')) {
+                calcNumber = (currentNumber + " - ");
+                updateCalcDisplay(calcNumber);
+                return;
             }
 
             // Equals
             if (input.id === "equals" && calcNumber === '') { 
                 calcNumber = currentNumber + '=';
                 updateCalcDisplay(calcNumber)
-                currentNumber = ''
                 calcNumber = ''
                 return;
-            } 
-            if(input.id === "equals" && currentNumber !== '0') {
+            } else if(input.id === "equals" && currentNumber !== '0') {
                 let fullEquation = (calcNumber + currentNumber) + " = ";
                 updateCalcDisplay(fullEquation); 
                 let ans = calculate(fullEquation)
-                updateDisplay(ans);
-                currentNumber = '';
-                calcNumber = '';
+                updateDisplay(ans);  
+                console.log(fullEquation);
+
                 return;
             } else if (input.id === "equals" && currentNumber === '0') {
                 return;
             } 
-            if (input.id === "equals" && calcNumber === '') {
-                return;
-            }
 
             // Account for numbers
             if (input.id === "0" && currentNumber === "0") {
