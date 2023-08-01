@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentNumber = "0";
     let calcNumber = '';
     let ans = null;
+    let isCalculated = false;
 
     inputs.forEach(function(input) {
         input.addEventListener('click', () => {
@@ -78,6 +79,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 return runCalculationLogic("divide", "÷");
             }
 
+            // Backspace
+            if(input.id === "backspace") {
+                if (isCalculated === true) {
+                    calcNumber = "";
+                    currentNumber = "0"
+                    isCalculated = false;
+                } else {
+                    currentNumber = currentNumber.slice(0, -1);
+                    if (currentNumber === "") {
+                        currentNumber = "0";
+                    }
+                } 
+                
+                updateDisplay(currentNumber);
+                updateCalcDisplay(calcNumber);
+                return;
+            }
+
             // Equals
             if (input.id === "equals" && calcNumber === '') { 
                 calcNumber = currentNumber + '=';
@@ -88,15 +107,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 let fullEquation = (calcNumber + currentNumber) + " = ";
                 updateCalcDisplay(fullEquation); 
                 let ans = calculate(fullEquation)
-                updateDisplay(ans);  
-                console.log(fullEquation);
-
+                updateDisplay(ans); 
+                isCalculated = true;
                 return;
             } else if (input.id === "equals" && currentNumber === '0') {
                 return;
             } 
 
-            // Account for numbers
+            // Numbers
             if (input.id === "0" && currentNumber === "0") {
                 // If currentNumber is "0" and the clicked button is also "0", do nothing
                 return;
@@ -161,6 +179,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateCalcDisplay('')
     currentNumber = "0";
     calcNumber = '';
+    isCalculated = false;
     });
 });
 
