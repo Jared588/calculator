@@ -40,13 +40,14 @@ document.addEventListener('DOMContentLoaded', function() {
     inputs.forEach(function(input) {
         input.addEventListener('click', () => {
             // Negate
-            if (input.id === "plus-minus" && currentNumber === "0") {         
+            if (input.id === "plus-minus" && currentNumber === "0") {       
                 return; 
             } else if (input.id === "plus-minus" && currentNumber !== "0") {
+                console.log("2")
                 currentNumber = negate(currentNumber).toString();
                 updateDisplay(currentNumber);
-                return;
-            }
+                return;               
+            } 
 
             // Period
             if(input.id === "period" && currentNumber.includes('.')) {
@@ -56,75 +57,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 updateDisplay(currentNumber);
                 return;
             }
-
-            // Define Operators
-            const hasOperator = /[\+\-\x÷]/.test(calcNumber);
-            const isCalculationDone = calcNumber.includes('=');
             
             // Addition
-            if(input.id === "add" && calcNumber.includes('+') && !calcNumber.includes('=')) {   
-                fullEquation = calcNumber += currentNumber;
-                ans = calculate(fullEquation);
-                updateCalcDisplay(ans + ' + ');
-                updateDisplay(ans);
-                calcNumber = ans + ' + '
-                currentNumber = '';
-                return;
-            } else if (input.id === "add" && calcNumber.includes('+') && calcNumber.includes('=')) {
-                calcNumber = ans + '+';
-                updateCalcDisplay(calcNumber);
-                return;
-            } else if (input.id === "add" && !calcNumber.includes('+') && !calcNumber.includes('=')) {   
-                if (!calcNumber) {
-                    calcNumber = (currentNumber + " + ");
-                    updateCalcDisplay(calcNumber);
-                    currentNumber = ''; // Reset currentNumber for 2nd variable
-                    return;
-                } else{
-                    let fullEquation = (calcNumber + currentNumber) + " = ";
-                    ans = calculate(fullEquation);
-                    calcNumber = (ans + " + ");
-                    updateCalcDisplay(calcNumber);
-                    currentNumber = ''; // Reset currentNumber for 2nd variable
-                    return;
-                }
-            } else if (input.id === "add" && !calcNumber.includes('+') && calcNumber.includes('=')) {
-                calcNumber = (currentNumber + " + ");
-                updateCalcDisplay(calcNumber);
-                return;
-            } 
+            if(input.id === "add") {
+                return runCalculationLogic("add", "+");
+            }
 
             // Subtraction 
-            if(input.id === "minus" && calcNumber.includes('-') && !calcNumber.includes('=')) {  
-                fullEquation = calcNumber += currentNumber;
-                ans = calculate(fullEquation);
-                updateCalcDisplay(ans + ' - ');
-                updateDisplay(ans);
-                calcNumber = ans + ' - '
-                currentNumber = '';
-                return;
-            } else if (input.id === "minus" && calcNumber.includes('-') && calcNumber.includes('=')) {
-                calcNumber = ans + '-';
-                updateCalcDisplay(calcNumber);
-                return;
-            } else if (input.id === "minus" && !calcNumber.includes('-') && !calcNumber.includes('=')) {
-                if (!calcNumber) {
-                    calcNumber = (currentNumber + " - ");
-                    updateCalcDisplay(calcNumber);
-                    currentNumber = ''; // Reset currentNumber for 2nd variable
-                    return;
-                } else{
-                    let fullEquation = (calcNumber + currentNumber) + " = ";
-                    ans = calculate(fullEquation);
-                    calcNumber = (ans + " - ");
-                    updateCalcDisplay(calcNumber);
-                    currentNumber = ''; // Reset currentNumber for 2nd variable
-                    return;
-                }
-            } else if (input.id === "minus" && !calcNumber.includes('-') && calcNumber.includes('=')) {
-                calcNumber = (currentNumber + " - ");
-                updateCalcDisplay(calcNumber);
-                return;
+            if(input.id === "minus") {
+                return runCalculationLogic("minus", "-");
+            }
+
+            // multiply
+            if(input.id === "multiply") {
+                return runCalculationLogic("multiply", "x");
+            }
+
+            // Divide
+            if(input.id === "divide") {
+                return runCalculationLogic("divide", "÷");
             }
 
             // Equals
@@ -158,6 +109,44 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else {
                     // If currentNumber is not "0", concatenate the clicked button's ID
                     currentNumber += input.id;
+                }
+            }
+
+            // Main operator function (+, -, x, ÷)
+            function runCalculationLogic(name, symbol) {
+                if(input.id === name && calcNumber.includes(symbol) && !calcNumber.includes('=')) {  
+                    fullEquation = calcNumber += currentNumber;
+                    ans = calculate(fullEquation);
+                    updateCalcDisplay(ans + ` ${symbol} `);
+                    updateDisplay(ans);
+                    calcNumber = (ans + ` ${symbol} `);
+                    currentNumber = '';
+                    console.log("1");
+                    return;
+                } else if (input.id === name && calcNumber.includes(symbol) && calcNumber.includes('=')) {
+                    calcNumber = ans + symbol;
+                    updateCalcDisplay(calcNumber);
+                    console.log("2");
+                    return;
+                } else if (input.id === name && !calcNumber.includes(symbol) && !calcNumber.includes('=')) {
+                    if (!calcNumber) {
+                        calcNumber = (currentNumber + ` ${symbol} `);
+                        updateCalcDisplay(calcNumber);
+                        currentNumber = ''; // Reset currentNumber for 2nd variable
+                        return;
+                    } else{
+                        let fullEquation = (calcNumber + currentNumber) + " = ";
+                        ans = calculate(fullEquation);
+                        calcNumber = (ans + ` ${symbol} `);
+                        updateCalcDisplay(calcNumber);
+                        currentNumber = ''; // Reset currentNumber for 2nd variable
+                        console.log("4");
+                        return;
+                    }
+                } else if (input.id === name && !calcNumber.includes(symbol) && calcNumber.includes('=')) {
+                    calcNumber = (currentNumber + ` ${symbol} `);
+                    updateCalcDisplay(calcNumber);
+                    return;
                 }
             }
 
@@ -242,6 +231,7 @@ function calculate(expression) {
     else if (operator === "x") return multiply(firstVariable, secondVariable);
     else if (operator === "÷") return divide(firstVariable, secondVariable);
 }
+
 // basic mathematical functions
 const add = (x, y) => x + y;
 
