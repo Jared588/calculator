@@ -81,14 +81,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Square
             if (input.id === "square") {
-                return runRootCalculation("square");
+                return runSpecialOperatorCalculation("square");
             }
 
             // Square root
             if (input.id === "square-root") {
-                return runRootCalculation("square-root");
+                return runSpecialOperatorCalculation("square-root");
             }
 
+            // 1/x (Divide x by 1)
+            if (input.id === "one-divide-x") {
+                return runSpecialOperatorCalculation("one-divide-x")
+            }
 
             // Equals
             if (input.id === "equals" && calcNumber === '') { 
@@ -141,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
 
-            // Main operator function (+, -, x, ÷)
+            // Operator function (+, -, x, ÷)
             function runOperatorCalculation(name, symbol) {
                 if(input.id === name && calcNumber.includes(symbol) && !calcNumber.includes('=')) {  
                     fullEquation = calcNumber += currentNumber;
@@ -179,13 +183,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
 
-            // Root functionality
-            function runRootCalculation(name) {
+            // Special operator function (square, root, 1 divide x)
+            function runSpecialOperatorCalculation(name) {
                 let rootFunction;
                 if (name === "square") {
                     rootFunction = square;
                 } else if (name === "square-root") {
                     rootFunction = squareRoot;
+                } else if (name === "one-divide-x") {
+                    rootFunction = oneDivideX;
                 }
 
                 if (input.id === name) {
