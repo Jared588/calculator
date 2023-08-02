@@ -350,12 +350,13 @@ function calculate(expression) {
     else if (operator === "÷") return roundToTwoDecimals(divide(firstVariable, secondVariable));
 }
 
+// Round off long decimal numbers
 function roundToTwoDecimals(num) {
     const roundedNum = Number(num);
     const decimalPlaces = (roundedNum.toString().split('.')[1] || '').length;
   
-    if (decimalPlaces > 2) {
-      return roundedNum.toFixed(2);
+    if (decimalPlaces > 3) {
+      return roundedNum.toFixed(3);
     } else {
       return roundedNum;
     }
