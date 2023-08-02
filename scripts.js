@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 let ans = calculate(fullEquation)
                 updateDisplay(ans); 
                 isCalculated = true;
-                console.log("2");
+                console.log("2");  
                 return;
             } else if (input.id === "equals" && currentNumber === '0') {
                 console.log("3");
@@ -155,11 +155,20 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             // Numbers
-            if (isCalculated === true) {
+            if (isCalculated === true && calcNumber !== '' && currentNumber === '') {
+                console.log(calcNumber);
                 currentNumber = input.id;
-                calcNumber = '';
                 updateDisplay(currentNumber);
                 updateCalcDisplay(calcNumber);
+                isCalculated = false;
+                console.log("test");
+                return;
+            } else if (isCalculated === true && currentNumber !== '') {
+                calcNumber = '';
+                currentNumber = input.id;
+                updateCalcDisplay(calcNumber);
+                updateDisplay(currentNumber);
+                console.log("test2");
                 isCalculated = false;
                 return;
             } else if (input.id === "0" && currentNumber === "0") {
@@ -171,9 +180,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     // If currentNumber is "0" and the clicked button is not "0",
                     // update currentNumber directly without concatenation
                     currentNumber = input.id;
+                    console.log("test3");
                 } else {
                     // If currentNumber is not "0", concatenate the clicked button's ID
                     currentNumber += input.id;
+                    console.log("test4");
                 }
             }
 
