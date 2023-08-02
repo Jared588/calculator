@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return runSpecialOperatorCalculation("square-root");
             }
 
-            // 1/x (Divide x by 1)
+            // 1/x (Divide 1 by x)
             if (input.id === "one-divide-x") {
                 return runSpecialOperatorCalculation("one-divide-x")
             }
@@ -87,19 +87,41 @@ document.addEventListener('DOMContentLoaded', function() {
             } 
 
             // Period
-            if(input.id === "period" && currentNumber.includes('.')) {
-                return;
-            } else if(input.id === "period" && !currentNumber.includes('.')) {
-                currentNumber += ".";
-                updateDisplay(currentNumber);
+            if(input.id === "period") {
+                if(isCalculated === true && !calcNumber.includes('.')) {
+                    if(currentNumber.includes(".")) return;
+                    let fullEquation = (calcNumber + currentNumber) + " = ";
+                    ans = calculate(fullEquation);
+                    calcNumber = ans + '.';
+                    updateCalcDisplay(calcNumber);
+                    currentNumber = calcNumber; // Reset currentNumber for 2nd variable
+                    calcNumber = '';
+                    isCalculated = false;
+                    console.log("1");
+                } else if (isCalculated === true && calcNumber.includes('.') && !currentNumber.includes('.')) {
+                    currentNumber += ".";
+                    updateDisplay(currentNumber);
+                    isCalculated = false;
+                    console.log("2");
+                    return;
+                } else if(currentNumber.includes('.') && isCalculated === false) {
+                    console.log("3");
+                    return;
+                } else if(!currentNumber.includes('.')) {
+                    console.log("4");
+                    currentNumber += ".";
+                    updateDisplay(currentNumber);
+                    return;
+                }
                 return;
             }
             
             // Equals
             if (input.id === "equals" && calcNumber === '') { 
                 calcNumber = currentNumber + '=';
-                updateCalcDisplay(calcNumber)
-                calcNumber = ''
+                updateCalcDisplay(calcNumber);
+                calcNumber = '';
+                console.log("1");
                 return;
             } else if(input.id === "equals" && currentNumber !== '0') {
                 let fullEquation = (calcNumber + currentNumber) + " = ";
@@ -107,8 +129,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 let ans = calculate(fullEquation)
                 updateDisplay(ans); 
                 isCalculated = true;
+                console.log("2");
                 return;
             } else if (input.id === "equals" && currentNumber === '0') {
+                console.log("3");
                 return;
             } 
 
@@ -131,7 +155,14 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             // Numbers
-            if (input.id === "0" && currentNumber === "0") {
+            if (isCalculated === true) {
+                currentNumber = input.id;
+                calcNumber = '';
+                updateDisplay(currentNumber);
+                updateCalcDisplay(calcNumber);
+                isCalculated = false;
+                return;
+            } else if (input.id === "0" && currentNumber === "0") {
                 // If currentNumber is "0" and the clicked button is also "0", do nothing
                 return;
             } else {
