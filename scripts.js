@@ -40,25 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     inputs.forEach(function(input) {
         input.addEventListener('click', () => {
-            // Negate
-            if (input.id === "plus-minus" && currentNumber === "0") {       
-                return; 
-            } else if (input.id === "plus-minus" && currentNumber !== "0") {
-                console.log("2")
-                currentNumber = negate(currentNumber).toString();
-                updateDisplay(currentNumber);
-                return;               
-            } 
-
-            // Period
-            if(input.id === "period" && currentNumber.includes('.')) {
-                return;
-            } else if(input.id === "period" && !currentNumber.includes('.')) {
-                currentNumber += ".";
-                updateDisplay(currentNumber);
-                return;
-            }
-            
+         
             // Addition
             if(input.id === "add") {
                 return runOperatorCalculation("add", "+");
@@ -94,6 +76,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 return runSpecialOperatorCalculation("one-divide-x")
             }
 
+            // Negate
+            if (input.id === "plus-minus" && currentNumber === "0") {       
+                return; 
+            } else if (input.id === "plus-minus" && currentNumber !== "0") {
+                console.log("2")
+                currentNumber = negate(currentNumber).toString();
+                updateDisplay(currentNumber);
+                return;               
+            } 
+
+            // Period
+            if(input.id === "period" && currentNumber.includes('.')) {
+                return;
+            } else if(input.id === "period" && !currentNumber.includes('.')) {
+                currentNumber += ".";
+                updateDisplay(currentNumber);
+                return;
+            }
+            
             // Equals
             if (input.id === "equals" && calcNumber === '') { 
                 calcNumber = currentNumber + '=';
@@ -195,7 +196,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 if (input.id === name) {
-                    if (calcNumber === "") {
+                    if (isCalculated === true) { // Account for equalized numbers
+                        let fullEquation = (calcNumber + currentNumber) + " = ";
+                        ans = calculate(fullEquation);
+                        calcNumber = rootFunction(ans);
+                        updateCalcDisplay(calcNumber);
+                        currentNumber = calcNumber; // Reset currentNumber for 2nd variable
+                        calcNumber = '';
+                        isCalculated = false;
+                    } else if (calcNumber === "") {
                         let ans = rootFunction(currentNumber);
                         updateDisplay(ans);
                         currentNumber = "";
