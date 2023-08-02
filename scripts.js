@@ -242,25 +242,25 @@ document.addEventListener('DOMContentLoaded', function() {
                         let fullEquation = (calcNumber + currentNumber) + " = ";
                         ans = calculate(fullEquation);
                         calcNumber = rootFunction(ans);
-                        updateCalcDisplay(calcNumber);
+                        updateCalcDisplay(roundToTwoDecimals(calcNumber));
                         currentNumber = calcNumber; // Reset currentNumber for 2nd variable
                         calcNumber = '';
                         isCalculated = false;
                     } else if (calcNumber === "") {
                         let ans = rootFunction(currentNumber);
-                        updateDisplay(ans);
+                        updateDisplay(roundToTwoDecimals(ans));
                         currentNumber = "";
                         calcNumber = ans;
                         currentNumber = ans;
-                        updateCalcDisplay(calcNumber);
+                        updateCalcDisplay(roundToTwoDecimals(calcNumber));
                         calcNumber = "";
                     } else {
                         let ans = rootFunction(currentNumber);
-                        updateDisplay(ans);
+                        updateDisplay(roundToTwoDecimals(ans));
                         currentNumber = "";
                         calcNumber += ans;
                         currentNumber = ans;
-                        updateCalcDisplay(calcNumber);
+                        updateCalcDisplay(roundToTwoDecimals(calcNumber));
                         currentNumber = "";
                     }
                     return;
@@ -360,7 +360,7 @@ function roundToTwoDecimals(num) {
     } else {
       return roundedNum;
     }
-  }
+}
   
 // basic mathematical functions
 const add = (x, y) => x + y;
