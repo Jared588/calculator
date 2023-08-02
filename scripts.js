@@ -344,12 +344,23 @@ function calculate(expression) {
     firstVariable = Number(firstVariable);
     secondVariable = Number(secondVariable);
 
-    if (operator === "+") return add(firstVariable, secondVariable);
-    else if (operator === "-") return minus(firstVariable, secondVariable);
-    else if (operator === "x") return multiply(firstVariable, secondVariable);
-    else if (operator === "÷") return divide(firstVariable, secondVariable);
+    if (operator === "+") return roundToTwoDecimals(add(firstVariable, secondVariable));
+    else if (operator === "-") return roundToTwoDecimals(minus(firstVariable, secondVariable));
+    else if (operator === "x") return roundToTwoDecimals(multiply(firstVariable, secondVariable));
+    else if (operator === "÷") return roundToTwoDecimals(divide(firstVariable, secondVariable));
 }
 
+function roundToTwoDecimals(num) {
+    const roundedNum = Number(num);
+    const decimalPlaces = (roundedNum.toString().split('.')[1] || '').length;
+  
+    if (decimalPlaces > 2) {
+      return roundedNum.toFixed(2);
+    } else {
+      return roundedNum;
+    }
+  }
+  
 // basic mathematical functions
 const add = (x, y) => x + y;
 
