@@ -61,23 +61,51 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Addition
             if(input.id === "add") {
-                return runCalculationLogic("add", "+");
+                return runOperatorCalculation("add", "+");
             }
 
             // Subtraction 
             if(input.id === "minus") {
-                return runCalculationLogic("minus", "-");
+                return runOperatorCalculation("minus", "-");
             }
 
             // multiply
             if(input.id === "multiply") {
-                return runCalculationLogic("multiply", "x");
+                return runOperatorCalculation("multiply", "x");
             }
 
             // Divide
             if(input.id === "divide") {
-                return runCalculationLogic("divide", "÷");
+                return runOperatorCalculation("divide", "÷");
             }
+
+            // Square
+            if (input.id === "square") {
+                return runRootCalculation("square");
+            }
+
+            // Square root
+            if (input.id === "square-root") {
+                return runRootCalculation("square-root");
+            }
+
+
+            // Equals
+            if (input.id === "equals" && calcNumber === '') { 
+                calcNumber = currentNumber + '=';
+                updateCalcDisplay(calcNumber)
+                calcNumber = ''
+                return;
+            } else if(input.id === "equals" && currentNumber !== '0') {
+                let fullEquation = (calcNumber + currentNumber) + " = ";
+                updateCalcDisplay(fullEquation); 
+                let ans = calculate(fullEquation)
+                updateDisplay(ans); 
+                isCalculated = true;
+                return;
+            } else if (input.id === "equals" && currentNumber === '0') {
+                return;
+            } 
 
             // Backspace
             if(input.id === "backspace") {
@@ -97,45 +125,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            // Square
-            if (input.id === "square") {
-                if (calcNumber === "") {
-                    let ans = square(currentNumber);
-                    updateDisplay(ans);
-                    currentNumber = "";
-                    calcNumber = ans;
-                    currentNumber = ans;
-                    updateCalcDisplay(calcNumber);
-                    calcNumber = "";
-                } else {
-                    let ans = square(currentNumber);
-                    updateDisplay(ans);
-                    currentNumber = "";
-                    calcNumber += ans;
-                    currentNumber = ans;
-                    updateCalcDisplay(calcNumber);
-                    currentNumber = "";
-                }
-                return;
-            }
-
-            // Equals
-            if (input.id === "equals" && calcNumber === '') { 
-                calcNumber = currentNumber + '=';
-                updateCalcDisplay(calcNumber)
-                calcNumber = ''
-                return;
-            } else if(input.id === "equals" && currentNumber !== '0') {
-                let fullEquation = (calcNumber + currentNumber) + " = ";
-                updateCalcDisplay(fullEquation); 
-                let ans = calculate(fullEquation)
-                updateDisplay(ans); 
-                isCalculated = true;
-                return;
-            } else if (input.id === "equals" && currentNumber === '0') {
-                return;
-            } 
-
             // Numbers
             if (input.id === "0" && currentNumber === "0") {
                 // If currentNumber is "0" and the clicked button is also "0", do nothing
@@ -153,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             // Main operator function (+, -, x, ÷)
-            function runCalculationLogic(name, symbol) {
+            function runOperatorCalculation(name, symbol) {
                 if(input.id === name && calcNumber.includes(symbol) && !calcNumber.includes('=')) {  
                     fullEquation = calcNumber += currentNumber;
                     ans = calculate(fullEquation);
@@ -186,6 +175,37 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else if (input.id === name && !calcNumber.includes(symbol) && calcNumber.includes('=')) {
                     calcNumber = (currentNumber + ` ${symbol} `);
                     updateCalcDisplay(calcNumber);
+                    return;
+                }
+            }
+
+            // Root functionality
+            function runRootCalculation(name) {
+                let rootFunction;
+                if (name === "square") {
+                    rootFunction = square;
+                } else if (name === "square-root") {
+                    rootFunction = squareRoot;
+                }
+
+                if (input.id === name) {
+                    if (calcNumber === "") {
+                        let ans = rootFunction(currentNumber);
+                        updateDisplay(ans);
+                        currentNumber = "";
+                        calcNumber = ans;
+                        currentNumber = ans;
+                        updateCalcDisplay(calcNumber);
+                        calcNumber = "";
+                    } else {
+                        let ans = rootFunction(currentNumber);
+                        updateDisplay(ans);
+                        currentNumber = "";
+                        calcNumber += ans;
+                        currentNumber = ans;
+                        updateCalcDisplay(calcNumber);
+                        currentNumber = "";
+                    }
                     return;
                 }
             }
