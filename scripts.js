@@ -97,6 +97,28 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
+            // Square
+            if (input.id === "square") {
+                if (calcNumber === "") {
+                    let ans = square(currentNumber);
+                    updateDisplay(ans);
+                    currentNumber = "";
+                    calcNumber = ans;
+                    currentNumber = ans;
+                    updateCalcDisplay(calcNumber);
+                    calcNumber = "";
+                } else {
+                    let ans = square(currentNumber);
+                    updateDisplay(ans);
+                    currentNumber = "";
+                    calcNumber += ans;
+                    currentNumber = ans;
+                    updateCalcDisplay(calcNumber);
+                    currentNumber = "";
+                }
+                return;
+            }
+
             // Equals
             if (input.id === "equals" && calcNumber === '') { 
                 calcNumber = currentNumber + '=';
