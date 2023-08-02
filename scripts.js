@@ -73,7 +73,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // 1/x (Divide 1 by x)
             if (input.id === "one-divide-x") {
-                return runSpecialOperatorCalculation("one-divide-x")
+                if (currentNumber === '') return;
+                return runSpecialOperatorCalculation("one-divide-x");
             }
 
             // Negate
@@ -124,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log("1");
                 return;
             } else if(input.id === "equals" && currentNumber !== '0') {
-                let fullEquation = (calcNumber + currentNumber) + " = ";
+                let fullEquation = (calcNumber + roundToTwoDecimals(currentNumber)) + " = ";
                 updateCalcDisplay(fullEquation); 
                 let ans = calculate(fullEquation)
                 updateDisplay(ans); 
@@ -191,7 +192,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Operator function (+, -, x, ÷)
             function runOperatorCalculation(name, symbol) {
                 if(input.id === name && calcNumber.includes(symbol) && !calcNumber.includes('=')) {  
-                    fullEquation = calcNumber += currentNumber;
+                    fullEquation = calcNumber += roundToTwoDecimals(currentNumber);
                     ans = calculate(fullEquation);
                     updateCalcDisplay(ans + ` ${symbol} `);
                     updateDisplay(ans);
@@ -206,9 +207,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     return;
                 } else if (input.id === name && !calcNumber.includes(symbol) && !calcNumber.includes('=')) {
                     if (!calcNumber) {
-                        calcNumber = (currentNumber + ` ${symbol} `);
+                        calcNumber = (roundToTwoDecimals(currentNumber) + ` ${symbol} `);
                         updateCalcDisplay(calcNumber);
                         currentNumber = ''; // Reset currentNumber for 2nd variable
+                        console.log("3")
                         return;
                     } else{
                         let fullEquation = (calcNumber + currentNumber) + " = ";
@@ -242,25 +244,25 @@ document.addEventListener('DOMContentLoaded', function() {
                         let fullEquation = (calcNumber + currentNumber) + " = ";
                         ans = calculate(fullEquation);
                         calcNumber = rootFunction(ans);
-                        updateCalcDisplay(roundToTwoDecimals(calcNumber));
+                        updateCalcDisplay(calcNumber);
                         currentNumber = calcNumber; // Reset currentNumber for 2nd variable
                         calcNumber = '';
                         isCalculated = false;
                     } else if (calcNumber === "") {
                         let ans = rootFunction(currentNumber);
-                        updateDisplay(roundToTwoDecimals(ans));
+                        updateDisplay(ans);
                         currentNumber = "";
                         calcNumber = ans;
                         currentNumber = ans;
-                        updateCalcDisplay(roundToTwoDecimals(calcNumber));
+                        updateCalcDisplay(calcNumber);
                         calcNumber = "";
                     } else {
                         let ans = rootFunction(currentNumber);
-                        updateDisplay(roundToTwoDecimals(ans));
+                        updateDisplay(ans);
                         currentNumber = "";
                         calcNumber += ans;
                         currentNumber = ans;
-                        updateCalcDisplay(roundToTwoDecimals(calcNumber));
+                        updateCalcDisplay(calcNumber);
                         currentNumber = "";
                     }
                     return;
