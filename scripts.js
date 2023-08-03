@@ -78,13 +78,24 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             // Negate
-            if (input.id === "plus-minus" && currentNumber === "0") {       
-                return; 
-            } else if (input.id === "plus-minus" && currentNumber !== "0") {
-                currentNumber = negate(currentNumber).toString();
-                updateDisplay(currentNumber);
-                return;               
-            } 
+            if (input.id === "plus-minus") {
+                if (currentNumber === "0") {       
+                    return; 
+                } else if (currentNumber !== "0" && isCalculated === false) {
+                    currentNumber = negate(currentNumber).toString();
+                    updateDisplay(currentNumber);
+                    return;               
+                } else if (currentNumber !== "0" && isCalculated === true) {
+                    let fullEquation = (calcNumber + currentNumber) + " = ";
+                    ans = calculate(fullEquation);
+                    ans = negate(ans);
+                    currentNumber = ans;
+                    calcNumber = '';
+                    updateDisplay(ans);
+                    isCalculated = false;
+                    return;
+                } 
+            }
 
             // Period
             if(input.id === "period") {
