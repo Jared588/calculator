@@ -81,7 +81,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (input.id === "plus-minus" && currentNumber === "0") {       
                 return; 
             } else if (input.id === "plus-minus" && currentNumber !== "0") {
-                console.log("2")
                 currentNumber = negate(currentNumber).toString();
                 updateDisplay(currentNumber);
                 return;               
@@ -98,18 +97,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     currentNumber = calcNumber; // Reset currentNumber for 2nd variable
                     calcNumber = '';
                     isCalculated = false;
-                    console.log("1");
                 } else if (isCalculated === true && calcNumber.includes('.') && !currentNumber.includes('.')) {
                     currentNumber += ".";
                     updateDisplay(currentNumber);
                     isCalculated = false;
-                    console.log("2");
                     return;
                 } else if(currentNumber.includes('.') && isCalculated === false) {
-                    console.log("3");
                     return;
                 } else if(!currentNumber.includes('.')) {
-                    console.log("4");
                     currentNumber += ".";
                     updateDisplay(currentNumber);
                     return;
@@ -122,18 +117,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 calcNumber = currentNumber + '=';
                 updateCalcDisplay(calcNumber);
                 calcNumber = '';
-                console.log("1");
                 return;
             } else if(input.id === "equals" && currentNumber !== '0') {
                 let fullEquation = (calcNumber + roundToTwoDecimals(currentNumber)) + " = ";
                 updateCalcDisplay(fullEquation); 
                 let ans = calculate(fullEquation)
                 updateDisplay(ans); 
-                isCalculated = true;
-                console.log("2");  
+                isCalculated = true; 
                 return;
             } else if (input.id === "equals" && currentNumber === '0') {
-                console.log("3");
                 return;
             } 
 
@@ -157,19 +149,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Numbers
             if (isCalculated === true && calcNumber !== '' && currentNumber === '') {
-                console.log(calcNumber);
                 currentNumber = input.id;
                 updateDisplay(currentNumber);
                 updateCalcDisplay(calcNumber);
                 isCalculated = false;
-                console.log("test");
                 return;
             } else if (isCalculated === true && currentNumber !== '') {
                 calcNumber = '';
                 currentNumber = input.id;
                 updateCalcDisplay(calcNumber);
                 updateDisplay(currentNumber);
-                console.log("test2");
                 isCalculated = false;
                 return;
             } else if (input.id === "0" && currentNumber === "0") {
@@ -181,11 +170,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     // If currentNumber is "0" and the clicked button is not "0",
                     // update currentNumber directly without concatenation
                     currentNumber = input.id;
-                    console.log("test3");
                 } else {
                     // If currentNumber is not "0", concatenate the clicked button's ID
                     currentNumber += input.id;
-                    console.log("test4");
                 }
             }
 
@@ -198,19 +185,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     updateDisplay(ans);
                     calcNumber = (ans + ` ${symbol} `);
                     currentNumber = '';
-                    console.log("1");
                     return;
                 } else if (input.id === name && calcNumber.includes(symbol) && calcNumber.includes('=')) {
                     calcNumber = ans + symbol;
                     updateCalcDisplay(calcNumber);
-                    console.log("2");
                     return;
                 } else if (input.id === name && !calcNumber.includes(symbol) && !calcNumber.includes('=')) {
                     if (!calcNumber) {
                         calcNumber = (roundToTwoDecimals(currentNumber) + ` ${symbol} `);
                         updateCalcDisplay(calcNumber);
                         currentNumber = ''; // Reset currentNumber for 2nd variable
-                        console.log("3")
                         return;
                     } else{
                         let fullEquation = (calcNumber + currentNumber) + " = ";
@@ -218,7 +202,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         calcNumber = (ans + ` ${symbol} `);
                         updateCalcDisplay(calcNumber);
                         currentNumber = ''; // Reset currentNumber for 2nd variable
-                        console.log("4");
                         return;
                     }
                 } else if (input.id === name && !calcNumber.includes(symbol) && calcNumber.includes('=')) {
@@ -248,7 +231,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         currentNumber = calcNumber; // Reset currentNumber for 2nd variable
                         calcNumber = '';
                         isCalculated = false;
-                        console.log("1");
                     } else if (calcNumber === "") {
                         let ans = roundToTwoDecimals(rootFunction(currentNumber));
                         updateDisplay(ans);
@@ -257,7 +239,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         currentNumber = ans;
                         updateCalcDisplay(calcNumber);
                         calcNumber = "";
-                        console.log("2");
                     } else {
                         let ans = roundToTwoDecimals(rootFunction(currentNumber));
                         updateDisplay(ans);
@@ -266,7 +247,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         currentNumber = ans;
                         updateCalcDisplay(calcNumber);
                         currentNumber = "";
-                        console.log("3");
                     }
                     return;
                 }
