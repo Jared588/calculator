@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let calcNumber = '';
     let ans = null;
     let isCalculated = false;
+    let specToggle = false;
 
     inputs.forEach(function(input) {
         input.addEventListener('click', () => {
@@ -259,6 +260,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         updateCalcDisplay(calcNumber);
                         currentNumber = "";
                     }
+                    specToggle = true;
                     return;
                 }
             }
@@ -275,6 +277,21 @@ document.addEventListener('DOMContentLoaded', function() {
     currentNumber = "0";
     calcNumber = '';
     isCalculated = false;
+    specToggle = false;
+    });
+
+    // Clear Entry
+    let clearEntBtn = document.querySelector('#clear-entry');
+    clearEntBtn.addEventListener('click', () => {
+        updateDisplay(0);
+        currentNumber = '0';
+        isCalculated = false;
+
+        if (specToggle === true) {
+            calcNumber = '';
+            updateCalcDisplay(calcNumber);
+            specToggle = false;
+        }
     });
 });
 
