@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 calcNumber = '';
                 return;
             } else if(input.id === "equals" && currentNumber !== '0') {
-                let fullEquation = (calcNumber + roundToTwoDecimals(currentNumber)) + " = ";
+                let fullEquation = (calcNumber + currentNumber) + " = ";
                 updateCalcDisplay(fullEquation); 
                 let ans = calculate(fullEquation)
                 updateDisplay(ans); 
