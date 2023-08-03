@@ -243,27 +243,30 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (isCalculated === true) { // Account for equalized numbers
                         let fullEquation = (calcNumber + currentNumber) + " = ";
                         ans = calculate(fullEquation);
-                        calcNumber = rootFunction(ans);
+                        calcNumber = roundToTwoDecimals(rootFunction(ans));
                         updateCalcDisplay(calcNumber);
                         currentNumber = calcNumber; // Reset currentNumber for 2nd variable
                         calcNumber = '';
                         isCalculated = false;
+                        console.log("1");
                     } else if (calcNumber === "") {
-                        let ans = rootFunction(currentNumber);
+                        let ans = roundToTwoDecimals(rootFunction(currentNumber));
                         updateDisplay(ans);
                         currentNumber = "";
                         calcNumber = ans;
                         currentNumber = ans;
                         updateCalcDisplay(calcNumber);
                         calcNumber = "";
+                        console.log("2");
                     } else {
-                        let ans = rootFunction(currentNumber);
+                        let ans = roundToTwoDecimals(rootFunction(currentNumber));
                         updateDisplay(ans);
                         currentNumber = "";
                         calcNumber += ans;
                         currentNumber = ans;
                         updateCalcDisplay(calcNumber);
                         currentNumber = "";
+                        console.log("3");
                     }
                     return;
                 }
