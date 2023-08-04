@@ -1,2 +1,2 @@
 # calculator
-Simple Calculator
+Simple Microsoft Calculator Clone
