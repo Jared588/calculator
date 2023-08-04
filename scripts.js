@@ -44,22 +44,22 @@ document.addEventListener('DOMContentLoaded', function() {
          
             // Addition
             if(input.id === "add") {
-                return runOperatorCalculation("add", "+");
+                return runOperatorCalculation("add");
             }
 
             // Subtraction 
             if(input.id === "minus") {
-                return runOperatorCalculation("minus", "-");
+                return runOperatorCalculation("minus");
             }
 
             // multiply
             if(input.id === "multiply") {
-                return runOperatorCalculation("multiply", "x");
+                return runOperatorCalculation("multiply");
             }
 
             // Divide
             if(input.id === "divide") {
-                return runOperatorCalculation("divide", "÷");
+                return runOperatorCalculation("divide");
             }
 
             // Square
@@ -98,6 +98,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 } 
             }
 
+            // Percent
+            if (input.id === "percent") {
+                if(isCalculated === true) return;
+                else if (calcNumber === '') return;
+                else {
+                    let num = calcNumber.slice(0, -3);
+                    let percentage = percent(num, currentNumber);
+                    fullEquation = calcNumber + percentage + " = ";
+                    ans = roundToTwoDecimals(calculate(fullEquation));
+                    currentNumber = ans;
+                    calcNumber = '';
+
+                    updateCalcDisplay(fullEquation);
+                    updateDisplay(ans);
+                }
+                return;
+            }
+
             // Period
             if(input.id === "period") {
                 if(isCalculated === true && !calcNumber.includes('.')) {
@@ -109,6 +127,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     currentNumber = calcNumber; // Reset currentNumber for 2nd variable
                     calcNumber = '';
                     isCalculated = false;
+                    return;
                 } else if (isCalculated === true && calcNumber.includes('.') && !currentNumber.includes('.')) {
                     currentNumber += ".";
                     updateDisplay(currentNumber);
@@ -189,7 +208,12 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             // Operator function (+, -, x, ÷)
-            function runOperatorCalculation(name, symbol) {
+            function runOperatorCalculation(name) {
+                if (name === "add") symbol = "+";
+                else if (name === "minus") symbol = "-";
+                else if (name === "multiply") symbol = "x";
+                else if (name === "divide") symbol = "÷";
+
                 if(input.id === name && calcNumber.includes(symbol) && !calcNumber.includes('=')) {  
                     fullEquation = calcNumber += roundToTwoDecimals(currentNumber);
                     ans = calculate(fullEquation);
@@ -293,6 +317,7 @@ document.addEventListener('DOMContentLoaded', function() {
             specToggle = false;
         }
     });
+
 });
 
 // Update display
@@ -392,4 +417,4 @@ const oneDivideX = (x) => 1 / x;
 
 const negate = (x) => x * -1;
 
-const percent = (x) => x / 100;
+const percent = (num, percent) => ((num / 100) * percent);
