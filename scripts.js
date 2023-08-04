@@ -32,13 +32,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Select the input
     let inputs = document.querySelectorAll('.digit, .operator, .equals');
 
-    // Have the buttons display correctly
+    // Global Variables
     let currentNumber = "0";
     let calcNumber = '';
     let ans = null;
     let isCalculated = false;
     let specToggle = false;
 
+    // Inputs
     inputs.forEach(function(input) {
         input.addEventListener('click', () => {
          
@@ -207,6 +208,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
 
+            // Main Calculation Functions
             // Operator function (+, -, x, ÷)
             function runOperatorCalculation(name) {
                 if (name === "add") symbol = "+";
@@ -319,6 +321,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 });
+
+// Functions //
 
 // Update display
 function updateDisplay(num) {
